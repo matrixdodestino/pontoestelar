@@ -3,141 +3,186 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Seu mapa está pronto — Ponto Estelar</title>
+<title>Embarque confirmado · Ponto Estelar</title>
+<meta name="theme-color" content="#EAF3FC">
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat+Brush&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --void:#07061A; --panel:#150E3A; --electric:#5B8DEF; --violet:#9D7BFF; --lilac:#C7B4FF;
-    --starlight:#ECE8FF; --muted:#8E86BE; --line:rgba(157,123,255,.22); --glow:rgba(157,123,255,.55);
-    --coral:#FF9E7D; --verde:#7BE0B0;
-  }
-  *{box-sizing:border-box}
-  body{margin:0; min-height:100vh; color:var(--starlight); font-family:"EB Garamond",Georgia,serif; font-size:18px; line-height:1.7;
-    background:
-      radial-gradient(1200px 700px at 50% -8%, #221452 0%, rgba(34,20,82,0) 60%),
-      radial-gradient(900px 600px at 12% 108%, #14224f 0%, rgba(20,34,79,0) 55%),
-      linear-gradient(180deg, var(--void), #060414 70%);
-    background-attachment:fixed;}
-  #stars{position:fixed; inset:0; z-index:0; pointer-events:none;}
-  .wrap{position:relative; z-index:1; max-width:620px; margin:0 auto; padding:clamp(32px,7vw,70px) 20px 70px;}
+:root{
+  --nuvem:#FBFAF7; --ceu:#EAF3FC; --marinho:#0E2240; --tinta:#1A2C47; --cinza:#56667E; --borda:rgba(14,34,64,.10);
+  --laranja:#FF5A1F; --laranja-esc:#D9440C; --pessego:#FFE7DA; --verde:#1E9E6A;
+  --sombra:0 24px 60px -32px rgba(14,34,64,.35); --sombra-leve:0 10px 30px -18px rgba(14,34,64,.3);
+  --tit:"Bricolage Grotesque","DM Sans",system-ui,sans-serif; --txt:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,monospace; --mao:"Caveat Brush",cursive;
+}
+*{box-sizing:border-box}
+body{margin:0; font-family:var(--txt); font-size:17px; line-height:1.65; color:var(--tinta); min-height:100vh;
+  background:linear-gradient(180deg, var(--ceu) 0px, #F3F8FD 480px, var(--nuvem) 860px); overflow-x:hidden}
+.nuvens{position:absolute; left:0; right:0; top:0; height:720px; overflow:hidden; pointer-events:none}
+.nuvem{position:absolute; border-radius:50%; background:#fff; filter:blur(30px); opacity:.85}
+.nuvem.n1{width:420px; height:150px; top:120px; left:-140px; animation:flutua 40s linear infinite}
+.nuvem.n2{width:340px; height:120px; top:330px; right:-110px; animation:flutua 50s linear infinite reverse}
+@keyframes flutua{0%,100%{transform:translateX(0)}50%{transform:translateX(70px)}}
+.wrap{position:relative; max-width:880px; margin:0 auto; padding:0 20px 70px}
+.topo{display:flex; justify-content:space-between; align-items:center; padding:18px 0}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--marinho)}
+.logo svg{width:38px; height:38px}
+.logo b{display:block; font-family:var(--tit); font-weight:800; font-size:20px; letter-spacing:-.02em; line-height:1}
+.logo small{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--cinza); margin-top:3px}
 
-  .selo{width:64px; height:64px; margin:0 auto 22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    border:1px solid rgba(123,224,176,.4); background:rgba(123,224,176,.08); color:var(--verde); font-size:28px;}
-  .k{font-family:"Cinzel",serif; letter-spacing:.4em; text-transform:uppercase; font-size:11px; color:var(--muted); text-align:center; margin:0;}
-  h1{font-family:"Cinzel",serif; font-weight:500; font-size:clamp(28px,6vw,42px); line-height:1.1; margin:12px 0 14px; text-align:center;
-    background:linear-gradient(180deg,#fff,var(--lilac) 72%,var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-  .lede{font-family:"Cormorant Garamond",serif; font-style:italic; font-size:20px; color:var(--muted); text-align:center; margin:0 auto 34px; max-width:44ch;}
+.hero{text-align:center; padding:40px 0 34px}
+.selo-ok{width:84px; height:84px; margin:0 auto 22px; border-radius:50%; background:var(--laranja); display:grid; place-items:center; color:#fff;
+  box-shadow:0 0 0 10px rgba(255,90,31,.14), 0 20px 40px -16px rgba(217,68,12,.8); animation:pop .7s cubic-bezier(.2,1.4,.4,1) both}
+.selo-ok svg{width:40px; height:40px}
+@keyframes pop{from{transform:scale(.4); opacity:0}to{transform:none; opacity:1}}
+h1{font-family:var(--tit); font-weight:800; font-size:clamp(40px,7vw,66px); line-height:1; letter-spacing:-.035em; color:var(--marinho); margin:0 0 16px}
+h1 em{font-style:normal; color:var(--laranja)}
+.lede{color:var(--cinza); font-size:clamp(17px,2vw,19.5px); max-width:50ch; margin:0 auto}
+.mao{font-family:var(--mao); color:var(--laranja); font-size:26px; display:inline-block; transform:rotate(-3deg); margin-top:14px}
 
-  .card{background:linear-gradient(180deg, rgba(30,20,66,.75), rgba(16,10,40,.75)); border:1px solid var(--line); border-radius:18px;
-    padding:28px 24px; box-shadow:0 30px 80px -40px #000, inset 0 1px 0 rgba(199,180,255,.08);}
+/* passagem confirmada */
+.passagem{position:relative; display:grid; grid-template-columns:1fr 200px; background:#fff; border-radius:26px; box-shadow:var(--sombra); overflow:hidden; margin-top:10px}
+.p-topo{grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; background:var(--marinho); color:#fff; padding:14px 26px; font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; text-transform:uppercase}
+.p-topo b{font-family:var(--tit); font-size:18px; letter-spacing:-.01em; text-transform:none}
+.p-topo svg{width:22px; height:22px; color:var(--laranja)}
+.p-main{padding:24px 26px 26px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.campo small{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--cinza)}
+.campo b{font-family:var(--tit); font-weight:800; font-size:20px; color:var(--marinho); line-height:1.2}
+.campo b.ok{color:var(--verde)}
+.p-canhoto{position:relative; border-left:2px dashed var(--borda); padding:22px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; background:var(--nuvem)}
+.carimbo{white-space:nowrap; font-family:var(--mono); font-weight:500; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--verde);
+  border:2.5px solid var(--verde); border-radius:10px; padding:8px 12px; transform:rotate(-8deg); opacity:.9}
+.barras{width:100%; height:44px; background:repeating-linear-gradient(90deg, var(--marinho) 0 2px, transparent 2px 4px, var(--marinho) 4px 7px, transparent 7px 9px, var(--marinho) 9px 10px, transparent 10px 13px); border-radius:3px; opacity:.85}
 
-  .btn{display:block; text-align:center; text-decoration:none; font-family:"Cinzel",serif; font-weight:500; letter-spacing:.16em;
-    text-transform:uppercase; font-size:14px; color:#0b0720; background:linear-gradient(180deg,var(--lilac),var(--violet)); border:none;
-    padding:18px; border-radius:12px; cursor:pointer; transition:transform .15s, box-shadow .2s; box-shadow:0 12px 40px -12px var(--glow);}
-  .btn:hover{transform:translateY(-1px); box-shadow:0 18px 52px -12px var(--glow);}
-  .btn:focus-visible{outline:2px solid var(--lilac); outline-offset:3px;}
+/* passos */
+h2{font-family:var(--tit); font-weight:800; font-size:clamp(28px,4.4vw,40px); letter-spacing:-.03em; color:var(--marinho); margin:64px 0 8px; text-align:center; line-height:1.05}
+h2 em{font-style:normal; color:var(--laranja)}
+.sub{text-align:center; color:var(--cinza); margin:0 0 28px}
+.passos{display:grid; gap:14px; counter-reset:p}
+.passo{display:grid; grid-template-columns:56px 1fr; gap:18px; align-items:flex-start; background:#fff; border:1px solid var(--borda); border-radius:22px; padding:22px 24px; box-shadow:var(--sombra-leve)}
+.passo .num{width:56px; height:56px; border-radius:50%; background:var(--pessego); color:var(--laranja-esc); display:grid; place-items:center; font-family:var(--mono); font-weight:500; font-size:16px}
+.passo h3{font-family:var(--tit); font-weight:800; font-size:21px; letter-spacing:-.015em; color:var(--marinho); margin:2px 0 4px}
+.passo p{margin:0; color:var(--cinza); font-size:16px}
+.passo p b{color:var(--tinta)}
+.passo ul{margin:10px 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:8px}
+.passo li{background:var(--ceu); color:var(--marinho); font-size:14.5px; font-weight:700; border-radius:999px; padding:6px 14px}
+.btn{display:inline-flex; align-items:center; gap:10px; margin-top:14px; font-family:var(--tit); font-weight:700; font-size:17px; text-decoration:none; color:#fff; background:var(--laranja);
+  border-radius:999px; padding:15px 26px; box-shadow:0 16px 32px -14px rgba(217,68,12,.85); transition:transform .18s, background .2s}
+.btn:hover{background:var(--laranja-esc); transform:translateY(-2px)}
+.btn svg{width:18px; height:18px}
+.btn:focus-visible,.btn-wpp:focus-visible{outline:3px solid var(--marinho); outline-offset:3px}
 
-  .aviso{margin-top:22px; border:1px solid rgba(255,158,125,.32); background:rgba(255,158,125,.07); border-radius:13px; padding:18px 20px;}
-  .aviso .t{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--coral); margin:0 0 8px;}
-  .aviso p{margin:0; font-size:17px;}
-  .aviso b{color:#fff; font-weight:500;}
+/* avisos */
+.avisos{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px}
+.aviso{background:var(--ceu); border-radius:20px; padding:20px 22px}
+.aviso h4{font-family:var(--tit); font-weight:800; font-size:17px; color:var(--marinho); margin:0 0 4px; display:flex; gap:8px; align-items:center}
+.aviso p{margin:0; color:var(--cinza); font-size:15.5px}
 
-  .passos{counter-reset:p; list-style:none; padding:0; margin:34px 0 0;}
-  .passos li{counter-increment:p; position:relative; padding-left:44px; margin-bottom:18px; font-size:17px; color:var(--starlight);}
-  .passos li:last-child{margin-bottom:0;}
-  .passos li::before{content:counter(p); position:absolute; left:0; top:1px; width:28px; height:28px; border-radius:50%;
-    border:1px solid var(--line); background:rgba(8,6,26,.7); color:var(--lilac); font-family:"Cinzel",serif; font-size:12px;
-    display:flex; align-items:center; justify-content:center;}
-  .passos small{display:block; color:var(--muted); font-size:15.5px; font-style:italic; font-family:"Cormorant Garamond",serif;}
+/* suporte */
+.suporte{margin-top:16px; display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; background:#fff; border:1px solid var(--borda); border-radius:22px; padding:22px 24px; box-shadow:var(--sombra-leve)}
+.suporte h4{font-family:var(--tit); font-weight:800; font-size:19px; color:var(--marinho); margin:0 0 2px}
+.suporte p{margin:0; color:var(--cinza); font-size:15.5px}
+.btn-wpp{display:inline-flex; align-items:center; gap:10px; font-family:var(--tit); font-weight:700; font-size:15.5px; text-decoration:none; color:var(--marinho); background:#fff; border:1.5px solid var(--borda); border-radius:999px; padding:12px 20px; transition:border-color .2s}
+.btn-wpp:hover{border-color:#25D366}
+.btn-wpp svg{width:20px; height:20px; color:#25D366}
 
-  .guardar{margin-top:34px; text-align:center;}
-  .guardar .rot{font-family:"Cinzel",serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 10px;}
-  .linkbox{display:flex; gap:8px; align-items:stretch; max-width:100%;}
-  .linkbox input{flex:1; min-width:0; font-family:"EB Garamond",serif; font-size:15px; color:var(--muted); background:rgba(8,6,26,.8);
-    border:1px solid var(--line); border-radius:10px; padding:12px 14px; overflow:hidden; text-overflow:ellipsis;}
-  .linkbox button{flex:0 0 auto; font-family:"Cinzel",serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--lilac);
-    background:rgba(157,123,255,.12); border:1px solid var(--line); border-radius:10px; padding:12px 16px; cursor:pointer; transition:all .2s;}
-  .linkbox button:hover{color:#fff; border-color:var(--violet);}
+footer{margin-top:54px; padding-top:24px; border-top:1px solid var(--borda); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; color:var(--cinza); font-size:14px}
+footer b{color:var(--marinho); font-family:var(--tit)}
 
-  .ajuda{margin-top:38px; text-align:center; color:var(--muted); font-size:16.5px;}
-  .ajuda a{color:var(--lilac);}
-  footer{margin-top:44px; text-align:center;}
-  footer b{color:var(--lilac); font-family:"Cinzel",serif; font-weight:400; letter-spacing:.2em; font-size:12px;}
-  @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+@media(max-width:640px){
+  body{font-size:16px}
+  .passagem{grid-template-columns:1fr}
+  .p-main{grid-template-columns:1fr 1fr}
+  .p-main .campo:last-child{grid-column:1/-1}
+  .p-canhoto{border-left:none; border-top:2px dashed var(--borda); flex-direction:row}
+  .p-topo span:nth-child(2){display:none}
+  .avisos{grid-template-columns:1fr}
+  .passo{grid-template-columns:1fr; gap:12px; padding:20px}
+  .btn{width:100%; justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} }
 </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
+<div class="nuvens" aria-hidden="true"><div class="nuvem n1"></div><div class="nuvem n2"></div></div>
 <div class="wrap">
+  <header class="topo">
+    <a class="logo" href="https://pontoestelar.com.br" aria-label="Ponto Estelar">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="#FFE7DA"/><circle cx="20" cy="20" r="13" fill="none" stroke="#0E2240" stroke-width="1.2" stroke-dasharray="1.5 2.5"/><path d="M20 4.5 L22.6 17.4 L35.5 20 L22.6 22.6 L20 35.5 L17.4 22.6 L4.5 20 L17.4 17.4 Z" fill="#0E2240"/><path d="M20 4.5 L22.6 17.4 L20 20 Z M35.5 20 L22.6 22.6 L20 20 Z" fill="#FF5A1F"/><circle cx="20" cy="20" r="2.2" fill="#fff"/></svg>
+      <span><b>Ponto Estelar</b><small>Astrocartografia</small></span>
+    </a>
+  </header>
 
-  <div class="selo">✦</div>
-  <p class="k">Pagamento confirmado</p>
-  <h1>Seu mapa está pronto</h1>
-  <p class="lede">As linhas que cruzavam o mundo no instante em que você nasceu já estão desenhadas. É só entrar.</p>
+  <section class="hero">
+    <div class="selo-ok" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Embarque <em>confirmado</em>!</h1>
+    <p class="lede">Obrigada pela sua compra. A sua passagem para o Ponto Estelar está garantida — agora faltam só três passos para ver o mundo pelo seu céu.</p>
+    <span class="mao">boa viagem ✦</span>
+  </section>
 
-  <div class="card">
-    <a class="btn" id="botao" href="#" target="_blank" rel="noopener">Abrir meu mapa</a>
-
-    <div class="aviso">
-      <p class="t">Importante</p>
-      <p>Ao abrir, digite <b>o mesmo e-mail que você usou nesta compra</b>. É ele que reconhece o seu acesso — nenhuma senha é necessária.</p>
+  <div class="passagem">
+    <div class="p-topo">
+      <span><b>Ponto Estelar</b></span>
+      <span>Voo PE · seu céu</span>
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
     </div>
-
-    <ol class="passos">
-      <li>Clique no botão acima
-        <small>o mapa abre em uma nova aba</small></li>
-      <li>Digite o e-mail da compra
-        <small>só nesta primeira vez</small></li>
-      <li>Explore as suas linhas
-        <small>toque em qualquer ponto do mundo para ver o que ele desperta em você</small></li>
-    </ol>
-
-    <div class="guardar">
-      <p class="rot">Guarde este endereço</p>
-      <div class="linkbox">
-        <input type="text" id="campo" readonly aria-label="Link do seu mapa">
-        <button id="copiar" type="button">Copiar</button>
-      </div>
+    <div class="p-main">
+      <div class="campo"><small>Passageira</small><b>Você</b></div>
+      <div class="campo"><small>Destino</small><b>O seu mapa</b></div>
+      <div class="campo"><small>Status</small><b class="ok">Confirmado</b></div>
+    </div>
+    <div class="p-canhoto">
+      <span class="carimbo">Aprovado ✓</span>
+      <div class="barras" aria-hidden="true"></div>
     </div>
   </div>
 
-  <p class="ajuda">
-    Não conseguiu entrar? Confira se está usando o mesmo e-mail da compra.<br>
-    Se ainda assim não abrir, escreva para <a href="matrixdodestino@gmail.com">SEU-EMAIL-DE-SUPORTE</a>.
-  </p>
+  <h2>Seus próximos <em>passos</em></h2>
+  <p class="sub">Leva menos de dois minutos.</p>
+  <div class="passos">
+    <div class="passo"><span class="num">01</span><div>
+      <h3>Confira o e-mail da compra</h3>
+      <p>A Hotmart enviou a confirmação para o e-mail que você usou no pagamento. <b>É com esse mesmo e-mail que você entra no mapa</b> — anote-o se tiver mais de um.</p>
+    </div></div>
+    <div class="passo"><span class="num">02</span><div>
+      <h3>Separe os dados do seu nascimento</h3>
+      <p>São eles que posicionam o seu céu. A hora faz diferença: se puder, confira na certidão de nascimento.</p>
+      <ul><li>📅 Data</li><li>⏱ Hora exata</li><li>📍 Cidade</li></ul>
+    </div></div>
+    <div class="passo"><span class="num">03</span><div>
+      <h3>Entre no seu mapa</h3>
+      <p>Informe o e-mail da compra, preencha o seu cartão de embarque e explore as cidades.</p>
+      <a class="btn" data-acesso href="#">Acessar meu mapa
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+    </div></div>
+  </div>
 
-  <footer><b>@matrixdodestino</b></footer>
+  <div class="avisos">
+    <div class="aviso"><h4>⏳ O acesso não abriu?</h4><p>A liberação é automática, mas pode levar alguns minutos depois da confirmação do pagamento. No boleto, a compensação pode levar até 3 dias úteis.</p></div>
+    <div class="aviso"><h4>⭐ Guarde este link</h4><p>Salve a página do mapa nos favoritos para voltar quando quiser — o acesso fica vinculado ao seu e-mail.</p></div>
+  </div>
+
+  <div class="suporte">
+    <div><h4>Precisa de ajuda?</h4><p>Fale com a gente pelo WhatsApp — é só mandar o e-mail usado na compra.</p></div>
+    <a class="btn-wpp" data-suporte href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+      Falar no WhatsApp</a>
+  </div>
+
+  <footer><span><b>Ponto Estelar</b> · Astrocartografia</span><span>pontoestelar.com.br</span></footer>
 </div>
 
 <script>
-/* ===================================================================
-   TROQUE AQUI pelo endereço do seu Worker
-   =================================================================== */
-const MAPA = "https://pontoestelar.matrixdodestino.workers.dev";
-
-document.getElementById('botao').href = MAPA;
-document.getElementById('campo').value = MAPA;
-
-document.getElementById('copiar').addEventListener('click', async (e) => {
-  const campo = document.getElementById('campo');
-  try {
-    await navigator.clipboard.writeText(MAPA);
-  } catch {
-    campo.select();
-    document.execCommand('copy');
-  }
-  e.target.textContent = 'Copiado!';
-  setTimeout(() => { e.target.textContent = 'Copiar'; }, 2000);
-});
-
-/* estrelas */
-(function(){const c=document.getElementById('stars'),x=c.getContext('2d');let w,h,st;
-  function init(){w=c.width=innerWidth;h=c.height=innerHeight;st=Array.from({length:Math.min(130,Math.floor(w*h/10000))},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.2,a:Math.random(),s:Math.random()*.02+.004}));}
-  function draw(){x.clearRect(0,0,w,h);for(const s of st){s.a+=s.s;const o=.3+Math.abs(Math.sin(s.a))*.6;x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fillStyle='rgba(220,210,255,'+o+')';x.fill();}requestAnimationFrame(draw);}
-  init();draw();addEventListener('resize',init);})();
+/* ============ CONFIGURAÇÃO — troque aqui ============ */
+const CONFIG = {
+  ACESSO:  'https://pontoestelar.matrixdodestino.workers.dev',                 // link da página do mapa (a que pede o e-mail)
+  WHATSAPP:'5514996056079'      // número de suporte com DDI, só dígitos
+};
+document.querySelectorAll('[data-acesso]').forEach(a => a.href = CONFIG.ACESSO);
+document.querySelectorAll('[data-suporte]').forEach(a => a.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' +
+  encodeURIComponent('Oi! Comprei o Ponto Estelar e preciso de ajuda com o acesso ao meu mapa.'));
 </script>
 </body>
 </html>

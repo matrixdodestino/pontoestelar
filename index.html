@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ponto Estelar — Astrocartografia: para onde as suas estrelas querem te levar</title>
+<meta name="description" content="Astrocartografia online: descubra em quais cidades do mundo o seu mapa natal desperta amor, carreira, criatividade e paz. Mapa interativo com mais de 500 cidades e 11 temas de leitura.">
+<meta name="theme-color" content="#EAF3FC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat+Brush&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuvem:#FBFAF7; --branco:#FFFFFF; --ceu:#EAF3FC; --ceu2:#D4E7F8; --mar:#CDE5F6; --terra:#F5EDDF;
+  --marinho:#0E2240; --tinta:#1A2C47; --muted:#56667E; --linha:rgba(14,34,64,.10);
+  --laranja:#FF5A1F; --laranja-esc:#D9440C; --pessego:#FFE7DA;
+  --venus:#E0558F; --jupiter:#6E56D8; --sol:#EE9A0E; --lua:#3D8BD9; --saturno:#7C8A5A; --netuno:#2BA39B;
+  --raio:22px; --sombra:0 24px 60px -32px rgba(14,34,64,.35); --sombra-leve:0 10px 30px -18px rgba(14,34,64,.3);
+  --tit:"Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
+  --txt:"DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mao:"Caveat Brush", "Comic Sans MS", cursive;
+  --mono:"DM Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:96px}
+body{margin:0; background:var(--nuvem); color:var(--tinta); font-family:var(--txt); font-size:17px; line-height:1.65; overflow-x:hidden}
+img,svg{display:block; max-width:100%}
+a{color:inherit}
+.container{width:min(1180px, 100% - 40px); margin:0 auto}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+
+/* ===== NAV ===== */
+.nav{position:fixed; top:0; left:0; right:0; z-index:50; padding:16px 0; transition:background .3s, box-shadow .3s, padding .3s}
+.nav.scrolled{background:rgba(251,250,247,.86); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); box-shadow:0 1px 0 var(--linha); padding:10px 0}
+.nav .container{display:flex; align-items:center; justify-content:space-between; gap:20px}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--marinho)}
+.logo svg{width:38px; height:38px; flex:0 0 auto}
+.logo b{display:block; font-family:var(--tit); font-weight:800; font-size:21px; letter-spacing:-.02em; line-height:1}
+.logo small{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:3px}
+.menu{display:flex; align-items:center; gap:4px; background:var(--laranja); border-radius:999px; padding:6px; box-shadow:0 14px 30px -16px rgba(217,68,12,.8)}
+.menu a{font-family:var(--tit); font-weight:700; font-size:14.5px; color:#fff; text-decoration:none; padding:9px 16px; border-radius:999px; transition:background .2s}
+.menu a:hover{background:rgba(255,255,255,.16)}
+.menu a.cta{background:#fff; color:var(--laranja-esc)}
+.menu a.cta:hover{background:var(--pessego)}
+.menu-btn{display:none}
+@media (max-width:900px){
+  .menu{display:none; position:absolute; top:calc(100% + 6px); right:20px; flex-direction:column; align-items:stretch; border-radius:20px; padding:10px; min-width:230px}
+  .menu.open{display:flex}
+  .menu a{padding:12px 16px}
+  .menu-btn{display:grid; place-items:center; width:46px; height:46px; border-radius:50%; border:none; background:var(--laranja); color:#fff; cursor:pointer; box-shadow:0 10px 24px -12px rgba(217,68,12,.8)}
+  .menu-btn svg{width:20px; height:20px}
+}
+
+/* ===== BOTÕES ===== */
+.btn{display:inline-flex; align-items:center; gap:10px; font-family:var(--tit); font-weight:700; font-size:16.5px; text-decoration:none; border-radius:999px; padding:15px 26px; transition:transform .18s, box-shadow .2s, background .2s; cursor:pointer; border:none}
+.btn svg{width:18px; height:18px; transition:transform .2s}
+.btn:hover svg{transform:translateX(3px)}
+.btn-laranja{background:var(--laranja); color:#fff; box-shadow:0 16px 32px -14px rgba(217,68,12,.85)}
+.btn-laranja:hover{background:var(--laranja-esc); transform:translateY(-2px)}
+.btn-claro{background:#fff; color:var(--marinho); box-shadow:inset 0 0 0 1.5px var(--linha)}
+.btn-claro:hover{box-shadow:inset 0 0 0 1.5px var(--marinho); transform:translateY(-2px)}
+.btn:focus-visible,.menu a:focus-visible,summary:focus-visible{outline:3px solid var(--marinho); outline-offset:3px}
+
+/* ===== HERO ===== */
+.hero{position:relative; padding:150px 0 90px; background:linear-gradient(180deg, var(--ceu) 0%, #F3F8FD 62%, var(--nuvem) 100%); overflow:hidden}
+.nuvem-bg{position:absolute; border-radius:50%; background:#fff; filter:blur(30px); opacity:.85; pointer-events:none}
+.nuvem-bg.n1{width:420px; height:150px; top:120px; left:-120px; animation:flutua 40s linear infinite}
+.nuvem-bg.n2{width:320px; height:110px; top:420px; right:-80px; animation:flutua 52s linear infinite reverse}
+.nuvem-bg.n3{width:260px; height:90px; top:60px; right:30%; opacity:.6; animation:flutua 60s linear infinite}
+@keyframes flutua{0%{transform:translateX(0)}50%{transform:translateX(80px)}100%{transform:translateX(0)}}
+.hero-grid{position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center}
+.chip{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--marinho); background:#fff; border-radius:999px; padding:8px 14px; box-shadow:var(--sombra-leve)}
+.chip i{width:8px; height:8px; border-radius:50%; background:var(--laranja); box-shadow:0 0 0 4px var(--pessego)}
+h1{font-family:var(--tit); font-weight:800; font-size:clamp(42px, 6.4vw, 78px); line-height:.98; letter-spacing:-.035em; color:var(--marinho); margin:22px 0 22px}
+h1 .destaque{position:relative; color:var(--laranja); white-space:nowrap}
+h1 .destaque svg{position:absolute; left:-2%; bottom:-.12em; width:104%; height:.3em; overflow:visible}
+.lede{font-size:clamp(17px, 1.6vw, 19.5px); color:var(--muted); max-width:52ch; margin:0 0 30px}
+.hero-ctas{display:flex; flex-wrap:wrap; gap:12px}
+.fatos{display:flex; flex-wrap:wrap; gap:26px; margin-top:38px; padding-top:24px; border-top:1px solid var(--linha)}
+.fatos div{min-width:110px}
+.fatos b{display:block; font-family:var(--tit); font-weight:800; font-size:30px; color:var(--marinho); line-height:1; letter-spacing:-.02em}
+.fatos span{font-size:14px; color:var(--muted)}
+
+/* janela do avião */
+.janela-wrap{position:relative; display:flex; justify-content:center; padding:20px 0}
+.janela{position:relative; width:min(360px, 78vw); aspect-ratio:36/48; border-radius:48% / 38%;
+  background:linear-gradient(145deg, #FFFFFF 0%, #E8EDF3 40%, #C9D3DF 100%);
+  box-shadow:0 50px 90px -40px rgba(14,34,64,.55), inset 0 2px 0 #fff, inset 0 -10px 24px rgba(14,34,64,.12);
+  padding:9%; transform:rotate(-2deg)}
+.janela::before{content:""; position:absolute; inset:4.5%; border-radius:inherit; box-shadow:inset 0 3px 10px rgba(14,34,64,.25), inset 0 -2px 0 rgba(255,255,255,.8)}
+.cortina{position:absolute; top:5.2%; left:50%; width:34%; height:3.2%; transform:translateX(-50%); border-radius:20px; background:linear-gradient(180deg,#F7F9FB,#D7DEE7); box-shadow:0 2px 4px rgba(14,34,64,.2); z-index:3}
+.vidro{position:relative; width:100%; height:100%; border-radius:46% / 36%; overflow:hidden; background:var(--mar);
+  box-shadow:inset 0 0 0 6px rgba(255,255,255,.65), inset 0 8px 30px rgba(14,34,64,.35)}
+.vidro svg{position:absolute; inset:0; width:100%; height:100%}
+.vidro::after{content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(125deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.25) 100%); pointer-events:none}
+.mapa-pan{animation:pan 26s ease-in-out infinite alternate}
+@keyframes pan{0%{transform:translate(0,0)}100%{transform:translate(-60px,-40px)}}
+.linha-planeta{stroke-dasharray:900; stroke-dashoffset:900; animation:traca 3.4s ease forwards}
+.linha-planeta.l2{animation-delay:.5s} .linha-planeta.l3{animation-delay:1s} .linha-planeta.l4{animation-delay:1.5s}
+@keyframes traca{to{stroke-dashoffset:0}}
+.nuvem-voo{animation:voo 18s linear infinite}
+.nuvem-voo.v2{animation-duration:26s; animation-delay:-9s}
+.nuvem-voo.v3{animation-duration:22s; animation-delay:-15s}
+@keyframes voo{0%{transform:translate(-160px,60px)}100%{transform:translate(380px,-120px)}}
+.balao{position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:2; background:#fff; border-radius:14px; padding:8px 12px; box-shadow:0 12px 26px -10px rgba(14,34,64,.45); font-size:12.5px; line-height:1.35; white-space:nowrap; animation:bob 4s ease-in-out infinite}
+.balao::after{content:""; position:absolute; left:50%; bottom:-6px; width:12px; height:12px; background:#fff; transform:translateX(-50%) rotate(45deg); border-radius:2px}
+.balao b{display:block; font-family:var(--tit); font-weight:800; font-size:13.5px; color:var(--marinho)}
+.balao span{color:var(--venus); font-weight:700}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}
+.etiqueta{position:absolute; z-index:4; background:#fff; border-radius:16px; box-shadow:var(--sombra); padding:12px 16px; display:flex; align-items:center; gap:12px; font-size:13.5px; line-height:1.3}
+.etiqueta .ic{width:38px; height:38px; border-radius:50%; display:grid; place-items:center; font-size:22px; color:#fff; flex:0 0 auto}
+.etiqueta small{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.etiqueta b{font-family:var(--tit); font-weight:800; color:var(--marinho); font-size:15px}
+.etiqueta.e1{left:-4%; bottom:16%; animation:bob2 6s ease-in-out infinite}
+.etiqueta.e2{right:-2%; top:12%; animation:bob2 7s ease-in-out infinite reverse}
+@keyframes bob2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.frase-mao{position:absolute; right:-6%; bottom:-4%; z-index:4; font-family:var(--mao); font-size:clamp(24px,2.6vw,32px); line-height:1.02; color:var(--laranja); transform:rotate(-6deg); text-align:left}
+.frase-mao svg{width:60px; height:46px; margin:0 0 4px 10px; color:var(--laranja)}
+
+/* ===== PAINEL DE VOOS (ticker) ===== */
+.painel{background:var(--marinho); color:#fff; padding:16px 0; overflow:hidden; white-space:nowrap}
+.painel-track{display:inline-flex; gap:42px; animation:ticker 48s linear infinite; padding-left:42px}
+.painel span{font-family:var(--mono); font-size:14px; letter-spacing:.06em; display:inline-flex; align-items:center; gap:12px}
+.painel em{font-style:normal; color:#FFB089}
+.painel i{width:5px; height:5px; border-radius:50%; background:var(--laranja); display:inline-block}
+@keyframes ticker{to{transform:translateX(-50%)}}
+
+/* ===== SEÇÕES ===== */
+section{position:relative}
+.secao{padding:110px 0}
+.eyebrow{font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--laranja-esc); margin:0 0 14px; display:flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:22px; height:2px; background:var(--laranja); border-radius:2px}
+h2{font-family:var(--tit); font-weight:800; font-size:clamp(34px, 4.6vw, 56px); line-height:1.02; letter-spacing:-.03em; color:var(--marinho); margin:0 0 18px}
+h2 .mao{font-family:var(--mao); font-weight:400; color:var(--laranja); letter-spacing:0; font-size:1.08em}
+.sub{color:var(--muted); font-size:18px; max-width:58ch; margin:0}
+.cab{margin-bottom:54px}
+.cab.centro{text-align:center} .cab.centro .eyebrow{justify-content:center} .cab.centro .sub{margin:0 auto}
+
+/* o que é */
+.oque{display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center}
+.oque p{color:var(--muted); margin:0 0 16px}
+.oque p strong{color:var(--tinta)}
+.linhas-lista{display:grid; gap:14px}
+.linha-card{display:flex; gap:18px; align-items:flex-start; background:#fff; border-radius:var(--raio); padding:20px 22px; box-shadow:var(--sombra-leve); border:1px solid var(--linha); transition:transform .25s}
+.linha-card:hover{transform:translateX(6px)}
+.linha-card .glifo{flex:0 0 46px; height:46px; border-radius:14px; display:grid; place-items:center; font-size:26px; color:#fff}
+.linha-card h3{font-family:var(--tit); font-weight:800; font-size:19px; margin:0 0 2px; color:var(--marinho)}
+.linha-card p{margin:0; font-size:15.5px; color:var(--muted)}
+.linha-card .traco{display:block; width:46px; height:3px; border-radius:3px; margin-top:10px}
+
+/* cartão de embarque */
+.embarque-bg{background:linear-gradient(180deg, var(--nuvem), var(--ceu))}
+.passagem{display:grid; grid-template-columns:1fr 250px; background:#fff; border-radius:28px; box-shadow:var(--sombra); overflow:hidden; position:relative}
+.passagem-topo{grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; background:var(--laranja); color:#fff; padding:16px 32px; font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase}
+.passagem-topo b{font-family:var(--tit); font-size:19px; letter-spacing:-.01em; text-transform:none}
+.passagem-topo svg{width:26px; height:26px}
+.passagem-main{padding:30px 34px 36px}
+.campos{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding-bottom:26px; margin-bottom:28px; border-bottom:1.5px dashed var(--linha)}
+.campo small{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.campo b{font-family:var(--tit); font-weight:800; font-size:21px; color:var(--marinho); line-height:1.2}
+.rota{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative}
+.rota::before{content:""; position:absolute; top:26px; left:8%; right:8%; border-top:2px dashed rgba(255,90,31,.45)}
+.etapa{position:relative}
+.etapa .num{position:relative; z-index:1; width:54px; height:54px; border-radius:50%; background:var(--pessego); color:var(--laranja-esc); display:grid; place-items:center; font-family:var(--mono); font-weight:500; font-size:15px; margin-bottom:16px; box-shadow:0 0 0 6px #fff}
+.etapa h3{font-family:var(--tit); font-weight:800; font-size:22px; color:var(--marinho); margin:0 0 6px}
+.etapa p{margin:0; color:var(--muted); font-size:15.5px}
+.canhoto{position:relative; border-left:2px dashed var(--linha); padding:30px 26px; display:flex; flex-direction:column; justify-content:space-between; gap:20px; background:var(--nuvem)}
+.canhoto::before,.canhoto::after{content:""; position:absolute; left:-15px; width:28px; height:28px; border-radius:50%; background:var(--ceu)}
+.canhoto::before{top:-14px} .canhoto::after{bottom:-14px; background:#EAF3FC}
+.portao{font-family:var(--tit); font-weight:800; font-size:44px; color:var(--marinho); line-height:1}
+.barras{height:64px; background:repeating-linear-gradient(90deg, var(--marinho) 0 2px, transparent 2px 4px, var(--marinho) 4px 7px, transparent 7px 9px, var(--marinho) 9px 10px, transparent 10px 13px); border-radius:3px; opacity:.9}
+.canhoto .btn{justify-content:center; padding:13px 18px; font-size:15px}
+
+/* o mapa por dentro */
+.mapa-sec{display:grid; grid-template-columns:.9fr 1.1fr; gap:60px; align-items:center}
+.recursos{display:grid; gap:22px; margin-top:34px}
+.recurso{display:flex; gap:16px}
+.recurso .ic{flex:0 0 44px; height:44px; border-radius:13px; background:var(--ceu); color:var(--marinho); display:grid; place-items:center}
+.recurso .ic svg{width:22px; height:22px}
+.recurso h3{font-family:var(--tit); font-weight:800; font-size:18.5px; margin:0 0 2px; color:var(--marinho)}
+.recurso p{margin:0; color:var(--muted); font-size:15.5px}
+.navegador{background:#fff; border-radius:20px; box-shadow:var(--sombra); overflow:hidden; border:1px solid var(--linha); transform:perspective(1400px) rotateY(-5deg) rotateX(2deg)}
+.nav-barra{display:flex; align-items:center; gap:7px; padding:12px 16px; background:#F3F5F8; border-bottom:1px solid var(--linha)}
+.nav-barra i{width:11px; height:11px; border-radius:50%; background:#E3E7EC}
+.nav-barra i:nth-child(1){background:#FF8A7A} .nav-barra i:nth-child(2){background:#FFCB6B} .nav-barra i:nth-child(3){background:#7ED6A1}
+.nav-barra span{margin-left:12px; flex:1; background:#fff; border-radius:8px; padding:5px 12px; font-family:var(--mono); font-size:12px; color:var(--muted)}
+.tela{position:relative; aspect-ratio:16/10; background:var(--mar)}
+.tela svg{position:absolute; inset:0; width:100%; height:100%}
+.tela .filtros{position:absolute; left:14px; top:14px; display:flex; gap:6px; flex-wrap:wrap; max-width:70%}
+.tela .filtros span{background:#fff; border-radius:999px; padding:4px 10px; font-size:11.5px; font-weight:700; color:var(--marinho); box-shadow:0 4px 10px -6px rgba(14,34,64,.4)}
+.tela .filtros span.on{background:var(--marinho); color:#fff}
+.tela .popup{position:absolute; left:52%; top:22%; background:#fff; border-radius:14px; padding:12px 14px; box-shadow:0 18px 34px -14px rgba(14,34,64,.5); font-size:12.5px; min-width:170px; animation:bob2 5s ease-in-out infinite}
+.tela .popup b{display:block; font-family:var(--tit); font-weight:800; font-size:14.5px; color:var(--marinho); margin-bottom:6px}
+.tela .popup div{display:flex; justify-content:space-between; gap:12px; padding:2px 0}
+.tela .popup em{font-style:normal; color:var(--laranja)}
+
+/* destinos */
+.destinos{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
+.postal{position:relative; border-radius:var(--raio); overflow:hidden; min-height:330px; padding:24px; display:flex; flex-direction:column; justify-content:flex-end; color:#fff; box-shadow:var(--sombra-leve); isolation:isolate; transition:transform .3s, box-shadow .3s;
+  background:var(--foto, none) center/cover, var(--grad)}
+.postal:hover{transform:translateY(-6px) rotate(-.4deg); box-shadow:var(--sombra)}
+.postal::before{content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(14,34,64,0) 30%, rgba(14,34,64,.62) 100%)}
+.postal .selo{position:absolute; top:18px; right:18px; width:64px; height:76px; background:#fff; padding:5px; transform:rotate(5deg);
+  outline:2px dashed rgba(255,255,255,.95); outline-offset:3px; box-shadow:0 8px 18px -8px rgba(0,0,0,.4)}
+.postal .selo span{display:grid; place-items:center; width:100%; height:100%; font-size:32px; color:#fff; background:var(--cor)}
+.glifo,.etiqueta .ic,.postal .selo span,.balao span,.tela .filtros span{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","Noto Sans Symbols","DejaVu Sans","Apple Symbols",var(--txt)}
+.postal .carimbo{position:absolute; top:26px; right:66px; width:76px; height:76px; border-radius:50%; border:2px solid rgba(255,255,255,.7); display:grid; place-items:center; transform:rotate(-14deg); font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-align:center; line-height:1.3; color:rgba(255,255,255,.9)}
+.postal .pais{font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.9}
+.postal h3{font-family:var(--tit); font-weight:800; font-size:36px; letter-spacing:-.025em; line-height:1; margin:4px 0 12px}
+.postal p{margin:0; font-size:15px; line-height:1.45; background:rgba(255,255,255,.16); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border-radius:12px; padding:10px 12px}
+.postal p b{font-weight:700}
+.aviso{margin:26px auto 0; text-align:center; color:var(--muted); font-size:15px; max-width:62ch}
+.aviso b{color:var(--tinta)}
+
+/* temas */
+.temas-bg{background:var(--ceu)}
+.temas{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+.tema{background:#fff; border-radius:18px; padding:20px; border:1px solid rgba(255,255,255,.8); box-shadow:var(--sombra-leve); transition:transform .2s, box-shadow .2s}
+.tema:hover{transform:translateY(-4px); box-shadow:var(--sombra)}
+.tema .t-ic{width:42px; height:42px; border-radius:12px; display:grid; place-items:center; font-size:20px; background:var(--pessego); margin-bottom:12px}
+.tema h3{font-family:var(--tit); font-weight:800; font-size:17.5px; margin:0 0 3px; color:var(--marinho)}
+.tema p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.5}
+.tema.destaque-cta{background:var(--laranja); color:#fff; display:flex; flex-direction:column; justify-content:space-between; text-decoration:none}
+.tema.destaque-cta h3{color:#fff; font-size:20px}
+.tema.destaque-cta p{color:rgba(255,255,255,.9)}
+.tema.destaque-cta .seta{font-family:var(--mao); font-size:26px}
+
+/* para quem */
+.paraquem{display:grid; grid-template-columns:repeat(4,1fr); gap:20px}
+.pq{border-top:3px solid var(--marinho); padding-top:18px}
+.pq .n{font-family:var(--mono); font-size:13px; color:var(--laranja-esc)}
+.pq h3{font-family:var(--tit); font-weight:800; font-size:21px; line-height:1.15; margin:8px 0 8px; color:var(--marinho)}
+.pq p{margin:0; color:var(--muted); font-size:15.5px}
+
+/* preço */
+.preco-bg{background:linear-gradient(180deg, var(--nuvem) 0%, var(--ceu) 100%)}
+.preco-grid{display:grid; grid-template-columns:1fr 440px; gap:60px; align-items:center}
+.ticket{position:relative; background:#fff; border-radius:28px; box-shadow:var(--sombra); overflow:hidden}
+.ticket-topo{background:var(--marinho); color:#fff; padding:22px 28px; display:flex; justify-content:space-between; align-items:center}
+.ticket-topo small{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; opacity:.7}
+.ticket-topo b{font-family:var(--tit); font-weight:800; font-size:21px}
+.ticket-topo .aviao{width:42px; height:42px; border-radius:50%; background:var(--laranja); display:grid; place-items:center}
+.ticket-topo .aviao svg{width:20px; height:20px}
+.ticket-corpo{padding:28px}
+.inclui{list-style:none; padding:0; margin:0 0 24px}
+.inclui li{display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px dashed var(--linha); font-size:16px}
+.inclui li:last-child{border-bottom:none}
+.inclui svg{flex:0 0 20px; width:20px; height:20px; color:var(--laranja); margin-top:3px}
+.valor{display:flex; align-items:baseline; gap:10px; margin:0 0 6px}
+.valor{flex-wrap:wrap} .valor b{white-space:nowrap; font-family:var(--tit); font-weight:800; font-size:clamp(40px,10vw,52px); letter-spacing:-.03em; color:var(--marinho); line-height:1}
+.valor span{color:var(--muted); font-size:15px}
+.ticket .btn{width:100%; justify-content:center; margin-top:16px}
+.seguro{display:flex; align-items:center; justify-content:center; gap:8px; font-size:13.5px; color:var(--muted); margin:14px 0 0}
+.seguro svg{width:16px; height:16px}
+.ja-comprou{text-align:center; margin:16px 0 0; font-size:14.5px}
+.ja-comprou a{color:var(--laranja-esc); font-weight:700}
+
+/* faq */
+.faq{max-width:820px; margin:0 auto}
+details{background:#fff; border-radius:18px; margin-bottom:12px; border:1px solid var(--linha); transition:box-shadow .2s}
+details[open]{box-shadow:var(--sombra-leve)}
+summary{list-style:none; cursor:pointer; padding:22px 26px; font-family:var(--tit); font-weight:700; font-size:18.5px; color:var(--marinho); display:flex; justify-content:space-between; align-items:center; gap:16px}
+summary::-webkit-details-marker{display:none}
+summary .mais{flex:0 0 32px; height:32px; border-radius:50%; background:var(--ceu); display:grid; place-items:center; transition:transform .25s, background .25s}
+summary .mais svg{width:14px; height:14px}
+details[open] summary .mais{transform:rotate(45deg); background:var(--pessego)}
+details .resp{padding:0 26px 22px; color:var(--muted); margin-top:-4px}
+details .resp p{margin:0 0 10px}
+
+/* final */
+.final{padding:30px 0 110px}
+.final-card{position:relative; overflow:hidden; border-radius:36px; background:linear-gradient(135deg, #E64A12 0%, #F0601F 50%, #FF8A4C 100%); color:#fff; text-shadow:0 1px 12px rgba(150,40,0,.25); padding:80px 60px; text-align:center}
+.final-card::before{content:""; position:absolute; width:520px; height:520px; border-radius:50%; right:-160px; top:-260px; background:radial-gradient(circle, rgba(255,240,200,.75), rgba(255,240,200,0) 70%)}
+.final-card .rota-svg{position:absolute; left:0; right:0; bottom:20px; width:100%; height:120px; opacity:.5}
+.final-card > *{position:relative}
+.final-card .mao{font-family:var(--mao); font-size:30px; display:block; margin-bottom:6px}
+.final-card h2{color:#fff; font-size:clamp(40px,6vw,74px); margin-bottom:14px}
+.final-card p{font-size:19px; max-width:48ch; margin:0 auto 32px; opacity:.95}
+.final-card .btn-claro{color:var(--laranja-esc); box-shadow:0 16px 32px -14px rgba(120,30,0,.6)}
+
+footer{border-top:1px solid var(--linha); padding:40px 0 50px; color:var(--muted); font-size:14.5px}
+footer .container{display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; align-items:flex-start}
+footer p{margin:6px 0 0; max-width:52ch}
+footer nav{display:flex; gap:22px; flex-wrap:wrap}
+footer nav a{text-decoration:none} footer nav a:hover{color:var(--laranja-esc)}
+
+/* animação de entrada */
+.rv{opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease}
+.rv.in{opacity:1; transform:none}
+.rv.d1{transition-delay:.1s} .rv.d2{transition-delay:.2s} .rv.d3{transition-delay:.3s}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width:1020px){
+  .hero-grid,.oque,.mapa-sec,.preco-grid{grid-template-columns:1fr}
+  .hero{padding-top:130px}
+  .janela-wrap{margin-top:20px}
+  .temas{grid-template-columns:repeat(3,1fr)}
+  .paraquem{grid-template-columns:repeat(2,1fr); row-gap:34px}
+  .navegador{transform:none}
+  .preco-grid{gap:40px}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .secao{padding:80px 0}
+  .passagem{grid-template-columns:1fr}
+  .campos,.rota{grid-template-columns:1fr}
+  .rota::before{top:0; bottom:0; left:26px; right:auto; border-top:none; border-left:2px dashed rgba(255,90,31,.45)}
+  .etapa{padding-left:76px; min-height:54px} .etapa .num{position:absolute; left:0; top:0}
+  .canhoto{border-left:none; border-top:2px dashed var(--linha); flex-direction:row; align-items:center; flex-wrap:wrap}
+  .canhoto::before,.canhoto::after{display:none}
+  .barras{flex:1; min-width:120px; height:46px}
+  .canhoto .btn{width:100%}
+  .passagem-topo{padding:14px 22px} .passagem-main{padding:24px 22px 28px}
+  .destinos{grid-template-columns:1fr}
+  .temas{grid-template-columns:1fr 1fr}
+  .paraquem{grid-template-columns:1fr}
+  .etiqueta.e1{left:0; bottom:8%} .etiqueta.e2{right:0; top:4%}
+  .frase-mao{right:0; bottom:-8%}
+  .final-card{padding:60px 24px; border-radius:28px}
+  .fatos{gap:18px}
+}
+@media (max-width:420px){ .temas{grid-template-columns:1fr} .etiqueta{padding:9px 12px} .etiqueta .ic{width:32px; height:32px; font-size:16px} }
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none!important; transition:none!important} .linha-planeta{stroke-dashoffset:0} .rv{opacity:1; transform:none} html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <div class="container">
+    <a href="#topo" class="logo" aria-label="Ponto Estelar — início">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" fill="#FFE7DA"/>
+        <circle cx="20" cy="20" r="13" fill="none" stroke="#0E2240" stroke-width="1.2" stroke-dasharray="1.5 2.5"/>
+        <path d="M20 4.5 L22.6 17.4 L35.5 20 L22.6 22.6 L20 35.5 L17.4 22.6 L4.5 20 L17.4 17.4 Z" fill="#0E2240"/>
+        <path d="M20 4.5 L22.6 17.4 L20 20 Z M35.5 20 L22.6 22.6 L20 20 Z" fill="#FF5A1F"/>
+        <circle cx="20" cy="20" r="2.2" fill="#fff"/>
+      </svg>
+      <span><b>Ponto Estelar</b><small>Astrocartografia</small></span>
+    </a>
+    <nav class="menu" id="menu" aria-label="Principal">
+      <a href="#como-funciona">como funciona</a>
+      <a href="#o-mapa">o mapa</a>
+      <a href="#destinos">destinos</a>
+      <a href="#duvidas">dúvidas</a>
+      <a href="#passagem" class="cta">quero meu mapa</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="topo">
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="nuvem-bg n1"></div><div class="nuvem-bg n2"></div><div class="nuvem-bg n3"></div>
+  <div class="container hero-grid">
+    <div>
+      <span class="chip rv"><i></i>Astrocartografia · a astrologia das viagens</span>
+      <h1 class="rv d1">Para onde as suas
+        <span class="destaque">estrelas<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 50 4, 120 2, 197 10" fill="none" stroke="#FF5A1F" stroke-width="5" stroke-linecap="round" opacity=".35"/></svg></span>
+        querem te levar?</h1>
+      <p class="lede rv d2">No instante em que você nasceu, cada planeta estava sobre um ponto exato da Terra. O Ponto Estelar traça essas linhas no mapa-múndi e mostra quais cidades despertam amor, carreira, criatividade e paz em você.</p>
+      <div class="hero-ctas rv d3">
+        <a class="btn btn-laranja" data-comprar href="#passagem">Quero meu mapa
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+        <a class="btn btn-claro" href="#como-funciona">Como funciona</a>
+      </div>
+      <div class="fatos rv d3">
+        <div><b>500+</b><span>cidades no mapa</span></div>
+        <div><b>11</b><span>temas de leitura</span></div>
+        <div><b>100%</b><span>online e interativo</span></div>
+      </div>
+    </div>
+
+    <div class="janela-wrap rv d2">
+      <div class="janela" role="img" aria-label="Janela de avião mostrando um mapa com linhas planetárias passando por cidades">
+        <div class="cortina"></div>
+        <div class="vidro">
+          <!-- QUANDO O VÍDEO ESTIVER PRONTO, troque o <svg> abaixo por:
+               <video src="mapa-loop.mp4" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video> -->
+          <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="mar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6EBF8"/><stop offset="1" stop-color="#B7D9F1"/></linearGradient>
+              <filter id="blur"><feGaussianBlur stdDeviation="7"/></filter>
+            </defs>
+            <rect width="300" height="400" fill="url(#mar)"/>
+            <g class="mapa-pan">
+              <g stroke="#fff" stroke-opacity=".55" stroke-width=".8" stroke-dasharray="2 4">
+                <path d="M-40 60H420M-40 140H420M-40 220H420M-40 300H420M-40 380H420"/>
+                <path d="M40 -40V480M120 -40V480M200 -40V480M280 -40V480"/>
+              </g>
+              <g fill="#F5EDDF" stroke="#E4D3B5" stroke-width="1.2">
+                <path d="M120 20 C150 10 190 30 205 60 C215 85 200 110 180 120 C170 140 185 165 175 190 C165 220 140 240 130 270 C120 300 90 305 80 280 C70 255 95 230 90 205 C85 180 60 170 65 140 C70 110 95 100 100 75 C103 50 100 30 120 20Z"/>
+                <path d="M235 150 C265 140 300 160 320 190 C335 215 320 250 300 260 C280 270 270 300 250 310 C230 320 215 300 220 275 C225 250 205 235 210 210 C214 185 215 158 235 150Z"/>
+                <path d="M-30 250 C0 240 30 260 40 290 C50 320 35 360 10 375 C-15 390 -35 370 -40 340 Z"/>
+                <path d="M170 330 C200 320 240 335 250 360 C260 385 240 420 205 425 C175 428 160 400 165 375 Z"/>
+              </g>
+              <path class="linha-planeta" d="M150 -40 C 140 80, 170 180, 150 280 S 140 420, 160 470" fill="none" stroke="#E0558F" stroke-width="3" stroke-linecap="round"/>
+              <path class="linha-planeta l2" d="M-30 120 C 60 140, 180 150, 340 110" fill="none" stroke="#6E56D8" stroke-width="2.6" stroke-linecap="round"/>
+              <path class="linha-planeta l3" d="M60 -40 C 75 100, 50 220, 85 460" fill="none" stroke="#EE9A0E" stroke-width="2.6" stroke-linecap="round"/>
+              <path class="linha-planeta l4" d="M260 -40 C 230 120, 270 260, 230 470" fill="none" stroke="#3D8BD9" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="6 6"/>
+              <g font-family="DM Sans, sans-serif" font-size="11" font-weight="700" fill="#0E2240">
+                <circle cx="152" cy="168" r="5.5" fill="#fff" stroke="#0E2240" stroke-width="2.4"/><text x="162" y="172">Lisboa</text>
+                <circle cx="95" cy="236" r="4.5" fill="#fff" stroke="#0E2240" stroke-width="2"/><text x="40" y="252">Marraquexe</text>
+                <circle cx="255" cy="215" r="4.5" fill="#fff" stroke="#0E2240" stroke-width="2"/><text x="214" y="236">Istambul</text>
+                <circle cx="200" cy="360" r="4.5" fill="#fff" stroke="#0E2240" stroke-width="2"/><text x="210" y="364">Cairo</text>
+              </g>
+            </g>
+            <g fill="#fff" filter="url(#blur)" opacity=".85">
+              <ellipse class="nuvem-voo" cx="40" cy="300" rx="70" ry="22"/>
+              <ellipse class="nuvem-voo v2" cx="20" cy="200" rx="56" ry="18"/>
+              <ellipse class="nuvem-voo v3" cx="60" cy="380" rx="80" ry="24"/>
+            </g>
+          </svg>
+          <div class="balao"><b>Lisboa</b><span>♀&#xFE0E; Vênus</span> · amor e beleza</div>
+        </div>
+      </div>
+      <div class="etiqueta e2"><span class="ic" style="background:var(--jupiter)">♃&#xFE0E;</span><span><small>Linha de Júpiter</small><b>expansão e sorte</b></span></div>
+      <div class="etiqueta e1"><span class="ic" style="background:var(--venus)">♀&#xFE0E;</span><span><small>Destino sugerido</small><b>Lisboa · amor</b></span></div>
+      <div class="frase-mao" aria-hidden="true">
+        <svg viewBox="0 0 60 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M50 42 C 40 20, 25 12, 8 10"/><path d="M15 3 L7 10 L16 16"/></svg>
+        o mundo inteiro,<br>lido pelo seu céu
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAINEL DE VOOS ===== -->
+<div class="painel" aria-hidden="true">
+  <div class="painel-track" id="painel"></div>
+</div>
+
+<!-- ===== O QUE É ===== -->
+<section class="secao" id="o-que-e">
+  <div class="container oque">
+    <div class="rv">
+      <p class="eyebrow">O que é astrocartografia</p>
+      <h2>O seu mapa natal, <span class="mao">desenhado no mapa-múndi</span></h2>
+      <p>A astrocartografia pega o céu do seu nascimento e projeta cada planeta sobre a Terra. O resultado são <strong>linhas que atravessam países e cidades</strong> — e cada uma delas carrega a energia de um planeta.</p>
+      <p>Perto de uma linha de Vênus, o amor e a beleza tendem a fluir. Sob Júpiter, as portas se abrem. Em outros lugares, a energia pede mais de você — e também ensina mais. Não existe cidade boa ou ruim: existe a cidade certa para o momento que você está vivendo.</p>
+      <p>É por isso que algumas pessoas se sentem em casa num lugar onde nunca estiveram — e outras não se encaixam na cidade onde nasceram.</p>
+    </div>
+    <div class="linhas-lista">
+      <div class="linha-card rv d1"><span class="glifo" style="background:var(--venus)">♀&#xFE0E;</span><div><h3>Linha de Vênus</h3><p>Amor, encontros, beleza e prazer. Lugares onde você é mais vista e mais querida.</p><span class="traco" style="background:var(--venus)"></span></div></div>
+      <div class="linha-card rv d2"><span class="glifo" style="background:var(--jupiter)">♃&#xFE0E;</span><div><h3>Linha de Júpiter</h3><p>Expansão, sorte e oportunidades. Onde as portas costumam se abrir com mais facilidade.</p><span class="traco" style="background:var(--jupiter)"></span></div></div>
+      <div class="linha-card rv d3"><span class="glifo" style="background:var(--sol)">☉&#xFE0E;</span><div><h3>Linha do Sol</h3><p>Brilho, reconhecimento e identidade. Onde você se sente mais você.</p><span class="traco" style="background:var(--sol)"></span></div></div>
+      <div class="linha-card rv d3"><span class="glifo" style="background:var(--lua)">☽&#xFE0E;</span><div><h3>Linha da Lua</h3><p>Lar, acolhimento e emoções. Onde é mais fácil criar raízes.</p><span class="traco" style="background:var(--lua)"></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CARTÃO DE EMBARQUE ===== -->
+<section class="secao embarque-bg" id="como-funciona">
+  <div class="container">
+    <div class="cab centro rv">
+      <p class="eyebrow">Como funciona</p>
+      <h2>Seu cartão de <span class="mao">embarque</span></h2>
+      <p class="sub">Três etapas entre você e o mapa das suas cidades.</p>
+    </div>
+    <div class="passagem rv d1">
+      <div class="passagem-topo">
+        <span><b>Ponto Estelar</b></span>
+        <span>Voo PE · 500</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+      </div>
+      <div class="passagem-main">
+        <div class="campos">
+          <div class="campo"><small>Passageira</small><b>Você</b></div>
+          <div class="campo"><small>Origem</small><b>O seu nascimento</b></div>
+          <div class="campo"><small>Destino</small><b>Onde as estrelas apontam</b></div>
+        </div>
+        <div class="rota">
+          <div class="etapa"><div class="num">01</div><h3>Embarque</h3><p>Você garante o seu acesso e informa data, hora e local de nascimento. São esses dados que posicionam o seu céu.</p></div>
+          <div class="etapa"><div class="num">02</div><h3>Rota</h3><p>O mapa traça as suas linhas planetárias sobre o mundo — cada cor, um planeta; cada linha, uma energia.</p></div>
+          <div class="etapa"><div class="num">03</div><h3>Destino</h3><p>Clique nas cidades e veja o que cada uma desperta em você: amor, carreira, criatividade, cura e muito mais.</p></div>
+        </div>
+      </div>
+      <div class="canhoto">
+        <div><small class="campo" style="display:block"><small>Portão</small></small><div class="portao">PE</div></div>
+        <div class="barras" aria-hidden="true"></div>
+        <a class="btn btn-laranja" data-comprar href="#passagem">Embarcar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== O MAPA POR DENTRO ===== -->
+<section class="secao" id="o-mapa">
+  <div class="container mapa-sec">
+    <div class="rv">
+      <p class="eyebrow">O mapa por dentro</p>
+      <h2>Um mapa que você <span class="mao">explora</span>, não só lê</h2>
+      <p class="sub">Nada de PDF genérico: você navega pelo mundo, filtra pelo que procura e descobre cidade por cidade.</p>
+      <div class="recursos">
+        <div class="recurso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><h3>Mais de 500 cidades pelo mundo</h3><p>Capitais, destinos queridos por viajantes e cidades do Brasil inteiro, em todos os continentes.</p></div></div>
+        <div class="recurso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span><div><h3>11 temas de leitura</h3><p>Filtre o mapa pelo que você busca agora: amor, dinheiro, carreira, espiritualidade…</p></div></div>
+        <div class="recurso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14v10H9l-4 4z"/></svg></span><div><h3>Balões de temas</h3><p>Clique numa cidade e veja quais áreas da sua vida as linhas próximas ativam.</p></div></div>
+        <div class="recurso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4-6 6-10 8-16M12 4c2 6 4 10 8 16"/></svg></span><div><h3>Linhas secundárias</h3><p>Além das linhas principais, sugestões de influências que também tocam cada região.</p></div></div>
+      </div>
+    </div>
+    <div class="navegador rv d2" role="img" aria-label="Ilustração da tela do mapa interativo com filtros de temas e um balão sobre Lisboa">
+      <div class="nav-barra"><i></i><i></i><i></i><span>pontoestelar.com.br/meu-mapa</span></div>
+      <div class="tela">
+        <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="640" height="400" fill="#CDE5F6"/>
+          <g stroke="#fff" stroke-opacity=".6" stroke-width=".8"><path d="M0 80H640M0 160H640M0 240H640M0 320H640M80 0V400M160 0V400M240 0V400M320 0V400M400 0V400M480 0V400M560 0V400"/></g>
+          <g fill="#F5EDDF" stroke="#E2D0B0" stroke-width="1.2">
+            <path d="M40 70 C90 40 170 50 200 90 C225 120 190 150 170 170 C150 200 175 240 150 270 C130 300 100 330 90 300 C80 270 60 240 45 210 C30 180 20 140 25 110 Z"/>
+            <path d="M280 60 C320 40 380 50 400 80 C415 105 390 125 370 140 C380 170 395 210 380 250 C365 290 335 330 310 320 C290 310 300 270 290 240 C280 210 255 190 265 160 C272 130 255 90 280 60Z"/>
+            <path d="M420 60 C480 40 580 50 620 90 C645 120 620 160 590 175 C560 190 540 220 510 220 C480 220 460 190 440 170 C420 150 400 110 420 60Z"/>
+            <path d="M520 270 C560 260 600 280 605 310 C610 340 580 360 550 355 C520 350 505 320 510 295 Z"/>
+          </g>
+          <path d="M318 -10 C 300 120, 340 240, 310 410" fill="none" stroke="#E0558F" stroke-width="3.2"/>
+          <path d="M-10 150 C 150 175, 400 170, 650 130" fill="none" stroke="#6E56D8" stroke-width="2.8"/>
+          <path d="M200 -10 C 215 140, 185 260, 210 410" fill="none" stroke="#EE9A0E" stroke-width="2.6"/>
+          <path d="M470 -10 C 440 140, 500 260, 460 410" fill="none" stroke="#3D8BD9" stroke-width="2.4" stroke-dasharray="7 6"/>
+          <path d="M100 -10 C 130 160, 90 280, 130 410" fill="none" stroke="#2BA39B" stroke-width="2" stroke-dasharray="3 5"/>
+          <g fill="#fff" stroke="#0E2240" stroke-width="2.2">
+            <circle cx="316" cy="140" r="6.5"/><circle cx="150" cy="120" r="4.5"/><circle cx="380" cy="110" r="4.5"/><circle cx="480" cy="150" r="4.5"/><circle cx="345" cy="250" r="4.5"/><circle cx="120" cy="260" r="4.5"/><circle cx="560" cy="310" r="4.5"/>
+          </g>
+        </svg>
+        <div class="filtros"><span class="on">♀&#xFE0E; Amor</span><span>Carreira</span><span>Dinheiro</span><span>Espiritualidade</span><span>+7</span></div>
+        <div class="popup"><b>Lisboa, Portugal</b><div>Amor <em>★★★</em></div><div>Criatividade <em>★★</em></div><div>Amizades <em>★</em></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DESTINOS ===== -->
+<section class="secao" id="destinos" style="padding-top:30px">
+  <div class="container">
+    <div class="cab rv">
+      <p class="eyebrow">Destinos mais procurados</p>
+      <h2>Cada cidade, <span class="mao">uma energia</span></h2>
+      <p class="sub">Exemplos de como um mesmo destino pode vibrar quando uma linha planetária passa por perto.</p>
+    </div>
+    <div class="destinos">
+      <!-- Para usar foto: adicione  --foto:url('lisboa.jpg');  no style do cartão -->
+      <article class="postal rv" style="--grad:linear-gradient(160deg,#FF9A6B 0%,#F0607A 55%,#8D4FB8 100%); --cor:var(--venus)">
+        <div class="selo"><span>♀&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Portugal</span><h3>Lisboa</h3>
+        <p>Com <b>Vênus</b> por perto: amor, encontros e uma vida mais bonita.</p>
+      </article>
+      <article class="postal rv d1" style="--grad:linear-gradient(160deg,#FFC36B 0%,#E9783A 50%,#6E56D8 100%); --cor:var(--jupiter)">
+        <div class="selo"><span>♃&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Turquia</span><h3>Istambul</h3>
+        <p>Com <b>Júpiter</b> por perto: expansão, sorte e portas que se abrem.</p>
+      </article>
+      <article class="postal rv d2" style="--grad:linear-gradient(160deg,#9FD8D0 0%,#3FA79E 45%,#24506E 100%); --cor:var(--netuno)">
+        <div class="selo"><span>♆&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Japão</span><h3>Kyoto</h3>
+        <p>Com <b>Netuno</b> por perto: espiritualidade, intuição e silêncio.</p>
+      </article>
+      <article class="postal rv" style="--grad:linear-gradient(160deg,#FFE08A 0%,#FFAF3D 45%,#E2611F 100%); --cor:var(--sol)">
+        <div class="selo"><span>☉&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Argentina</span><h3>Buenos Aires</h3>
+        <p>Com o <b>Sol</b> por perto: brilho, reconhecimento e autoconfiança.</p>
+      </article>
+      <article class="postal rv d1" style="--grad:linear-gradient(160deg,#B9D6F5 0%,#5E8FD6 50%,#1F3B73 100%); --cor:#C2452D">
+        <div class="selo"><span>♂&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Estados Unidos</span><h3>Nova York</h3>
+        <p>Com <b>Marte</b> por perto: coragem, ambição e muita energia.</p>
+      </article>
+      <article class="postal rv d2" style="--grad:linear-gradient(160deg,#BFE7F5 0%,#5BB8D6 45%,#1F7A9C 100%); --cor:var(--lua)">
+        <div class="selo"><span>☽&#xFE0E;</span></div><div class="carimbo">PONTO<br>ESTELAR<br>✦</div>
+        <span class="pais">Brasil</span><h3>Florianópolis</h3>
+        <p>Com a <b>Lua</b> por perto: acolhimento, lar e paz emocional.</p>
+      </article>
+    </div>
+    <p class="aviso rv">As linhas mudam de lugar de pessoa para pessoa. <b>No seu mapa, Lisboa pode ser amor — ou carreira, ou cura.</b> Só os seus dados de nascimento dizem.</p>
+  </div>
+</section>
+
+<!-- ===== TEMAS ===== -->
+<section class="secao temas-bg" id="temas">
+  <div class="container">
+    <div class="cab centro rv">
+      <p class="eyebrow">11 temas de leitura</p>
+      <h2>Que tipo de viagem <span class="mao">você procura?</span></h2>
+      <p class="sub">Filtre o mapa pelo momento que você está vivendo.</p>
+    </div>
+    <div class="temas" id="temasGrid"></div>
+  </div>
+</section>
+
+<!-- ===== PARA QUEM ===== -->
+<section class="secao" id="para-quem">
+  <div class="container">
+    <div class="cab rv">
+      <p class="eyebrow">Para quem é</p>
+      <h2>Para quem quer escolher <span class="mao">com intenção</span></h2>
+    </div>
+    <div class="paraquem">
+      <div class="pq rv"><span class="n">01</span><h3>Vai se mudar</h3><p>De cidade, de estado ou de país — e quer saber onde a vida tende a fluir melhor.</p></div>
+      <div class="pq rv d1"><span class="n">02</span><h3>Planeja a próxima viagem</h3><p>Lua de mel, férias, um retiro: escolha o destino pelo que você quer viver lá.</p></div>
+      <div class="pq rv d2"><span class="n">03</span><h3>Trabalha de qualquer lugar</h3><p>Nômades digitais e quem tem liberdade para escolher onde passar a próxima temporada.</p></div>
+      <div class="pq rv d3"><span class="n">04</span><h3>Quer se entender</h3><p>Por que você floresceu em um lugar e travou em outro? O mapa costuma responder.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PREÇO ===== -->
+<section class="secao preco-bg" id="passagem">
+  <div class="container preco-grid">
+    <div class="rv">
+      <p class="eyebrow">Sua passagem</p>
+      <h2>O mundo inteiro, <span class="mao">no seu mapa</span></h2>
+      <p class="sub">Acesso ao mapa interativo do Ponto Estelar, com as suas linhas planetárias traçadas sobre o mundo e a leitura de cada cidade pelos 11 temas.</p>
+    </div>
+    <div class="ticket rv d1">
+      <div class="ticket-topo">
+        <div><small>Passagem</small><b>Mapa Ponto Estelar</b></div>
+        <span class="aviao"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span>
+      </div>
+      <div class="ticket-corpo">
+        <ul class="inclui">
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Mapa interativo com as suas linhas planetárias</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Mais de 500 cidades analisadas pelo mundo</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>11 temas de leitura com filtro</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Balões de temas em cada cidade</li>
+          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Acesso liberado no e-mail da compra</li>
+        </ul>
+        <div class="valor"><b data-preco>R$ 49,90</b><span>pagamento único</span></div>
+        <a class="btn btn-laranja" data-comprar href="#">Garantir minha passagem
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+        <p class="seguro"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>Pagamento seguro processado pela Hotmart</p>
+        <p class="ja-comprou">Já comprou? <a data-acesso href="#">Entrar no meu mapa →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="secao" id="duvidas">
+  <div class="container">
+    <div class="cab centro rv">
+      <p class="eyebrow">Dúvidas</p>
+      <h2>Antes de <span class="mao">embarcar</span></h2>
+    </div>
+    <div class="faq">
+      <details class="rv"><summary>Preciso saber a minha hora de nascimento?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Sim — a hora faz diferença, porque as linhas mudam de lugar conforme o horário. O ideal é usar a hora que consta na certidão de nascimento. Se você não tiver a hora exata, use a mais aproximada que souber.</p></div></details>
+      <details class="rv"><summary>Como recebo o acesso?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Depois da compra pela Hotmart, o acesso é liberado para o e-mail que você usou no pagamento. É só entrar com ele no Ponto Estelar e abrir o seu mapa.</p></div></details>
+      <details class="rv"><summary>Astrocartografia é previsão do futuro?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Não. Ela mostra tendências: que tipo de energia cada lugar tende a despertar em você. A escolha continua sendo sua — o mapa é uma bússola, não uma sentença.</p></div></details>
+      <details class="rv"><summary>Serve para quem não pode viajar agora?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Serve. Muita gente usa o mapa para entender a relação com a cidade onde mora, com a cidade onde cresceu ou para planejar com calma uma mudança futura.</p></div></details>
+      <details class="rv"><summary>Preciso entender de astrologia?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Não. O mapa traduz as linhas em temas do dia a dia — amor, trabalho, dinheiro, bem-estar — para que qualquer pessoa consiga explorar sozinha.</p></div></details>
+      <details class="rv"><summary>É seguro comprar?<span class="mais"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span></summary>
+        <div class="resp"><p>Sim. O pagamento é processado pela Hotmart, uma das maiores plataformas de produtos digitais do Brasil. Seus dados de pagamento não passam pelo Ponto Estelar.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL ===== -->
+<section class="final">
+  <div class="container">
+    <div class="final-card rv">
+      <svg class="rota-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 100 C 200 20, 420 120, 620 60 S 1000 10, 1220 70" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="8 10"/></svg>
+      <span class="mao">boa viagem ✦</span>
+      <h2>O seu lugar no mundo já está no seu céu</h2>
+      <p>Descubra onde a sua vida tende a fluir — no amor, no trabalho e na alma.</p>
+      <a class="btn btn-claro" data-comprar href="#passagem">Quero meu mapa
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div>
+      <a href="#topo" class="logo" aria-label="Ponto Estelar">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="#FFE7DA"/><path d="M20 4.5 L22.6 17.4 L35.5 20 L22.6 22.6 L20 35.5 L17.4 22.6 L4.5 20 L17.4 17.4 Z" fill="#0E2240"/><path d="M20 4.5 L22.6 17.4 L20 20 Z M35.5 20 L22.6 22.6 L20 20 Z" fill="#FF5A1F"/><circle cx="20" cy="20" r="2.2" fill="#fff"/></svg>
+        <span><b>Ponto Estelar</b><small>Astrocartografia</small></span>
+      </a>
+      <p>A astrologia é uma ferramenta de autoconhecimento e não substitui orientação profissional nas decisões da sua vida.</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#o-mapa">O mapa</a>
+      <a href="#destinos">Destinos</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a data-acesso href="#">Entrar no meu mapa</a>
+    </nav>
+  </div>
+  <div class="container" style="margin-top:22px; font-size:13px"><span>© <span id="ano"></span> Ponto Estelar · pontoestelar.com.br</span></div>
+</footer>
+
+<script>
+/* ============ CONFIGURAÇÃO — troque aqui ============ */
+const CONFIG = {
+  PRECO:   'R$ 49,90',                 // ex.: 'R$ 47,00'
+  HOTMART: 'https://go.hotmart.com/X106966830B',                // link do checkout da Hotmart
+  ACESSO:  'https://pontoestelar.matrixdodestino.workers.dev'   // link da página de login do mapa (quem já comprou)
+};
+
+/* aplica preço e links */
+document.querySelectorAll('[data-preco]').forEach(el => el.textContent = CONFIG.PRECO);
+document.querySelectorAll('[data-comprar]').forEach(a => {
+  if (a.closest('.ticket')) { a.href = CONFIG.HOTMART; if (/^https?:/.test(CONFIG.HOTMART)) { a.target = '_blank'; a.rel = 'noopener'; } }
+});
+document.querySelectorAll('[data-acesso]').forEach(a => a.href = CONFIG.ACESSO);
+document.getElementById('ano').textContent = new Date().getFullYear();
+
+/* painel de voos */
+(function(){
+  const rotas = [['LIS','Lisboa','Vênus'],['IST','Istambul','Júpiter'],['KIX','Kyoto','Netuno'],['EZE','Buenos Aires','Sol'],
+    ['JFK','Nova York','Marte'],['FLN','Florianópolis','Lua'],['CDG','Paris','Vênus'],['MEX','Cidade do México','Plutão'],
+    ['DPS','Bali','Netuno'],['CPT','Cidade do Cabo','Júpiter'],['FCO','Roma','Sol'],['BCN','Barcelona','Mercúrio']];
+  const html = rotas.map(r => '<span><i></i>' + r[0] + ' · ' + r[1] + ' <em>→ ' + r[2] + '</em></span>').join('');
+  document.getElementById('painel').innerHTML = html + html;
+})();
+
+/* temas */
+(function(){
+  const temas = [
+    ['💗','Amor','Onde os encontros acontecem e o coração se abre.'],
+    ['💼','Carreira','Onde o seu trabalho ganha visibilidade e direção.'],
+    ['💰','Dinheiro','Onde a prosperidade tende a circular melhor.'],
+    ['🎨','Criatividade','Onde as ideias fluem e a arte acontece.'],
+    ['🕊️','Espiritualidade','Onde a intuição fica mais clara.'],
+    ['🌿','Cura e bem-estar','Onde o corpo descansa e a mente desacelera.'],
+    ['🏡','Lar e raízes','Onde é mais fácil se sentir em casa.'],
+    ['🤝','Amizades','Onde você encontra a sua turma.'],
+    ['📚','Estudos','Onde aprender fica mais leve.'],
+    ['🔥','Transformação','Onde você se reinventa.'],
+    ['🍀','Sorte e expansão','Onde as portas se abrem.']
+  ];
+  const grid = document.getElementById('temasGrid');
+  grid.innerHTML = temas.map((t,i) =>
+    '<div class="tema rv' + (i%4 ? ' d' + (i%4) : '') + '"><div class="t-ic" aria-hidden="true">' + t[0] + '</div><h3>' + t[1] + '</h3><p>' + t[2] + '</p></div>'
+  ).join('') +
+    '<a class="tema destaque-cta rv d3" href="#passagem"><h3>E você, para onde vai?</h3><p>Descubra quais cidades ativam cada tema no seu mapa.</p><span class="seta">ver meu mapa →</span></a>';
+})();
+
+/* nav: fundo ao rolar + menu mobile */
+const nav = document.getElementById('nav'), menu = document.getElementById('menu'), btn = document.getElementById('menuBtn');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), {passive:true});
+btn.addEventListener('click', () => { const o = menu.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.classList.remove('open'); btn.setAttribute('aria-expanded', false); }));
+
+/* animação de entrada */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
