@@ -1655,11 +1655,20 @@ function renderGuia(){
 
 <script>
 (function(){
+  var M={"ph": ["Dia", "Mês", "Ano", "--", "--"], "err": "Escolha o dia, o mês, o ano, a hora e o minuto do seu nascimento para ver o seu mapa.", "cid": "Escolha a sua cidade de nascimento na lista."}, ids=['dia','mes','ano','hora','min'];
+  ids.forEach(function(id,i){ var s=document.getElementById(id); if(!s) return;
+    var o=document.createElement('option'); o.value=''; o.textContent=M.ph[i]; o.disabled=true; s.insertBefore(o,s.firstChild); s.value=''; });
   function h(){ try{ parent.postMessage({pvH: document.documentElement.scrollHeight}, '*'); }catch(e){} }
   if('ResizeObserver' in window){ new ResizeObserver(h).observe(document.body); }
   window.addEventListener('load', h); setInterval(h, 1500); h();
   var g=document.getElementById('go');
-  if(g) g.addEventListener('click', function(){ try{ parent.postMessage({pvOpen:true}, '*'); }catch(e){} }, true);
+  if(g) g.addEventListener('click', function(ev){
+    var err=document.getElementById('err');
+    var falta=ids.some(function(id){ var s=document.getElementById(id); return !s || s.value===''; });
+    if(falta){ ev.stopImmediatePropagation(); ev.preventDefault(); if(err) err.textContent=M.err; return; }
+    if(typeof chosen!=='undefined' && !chosen){ ev.stopImmediatePropagation(); ev.preventDefault(); if(err) err.textContent=M.cid; return; }
+    try{ parent.postMessage({pvOpen:true}, '*'); }catch(e){}
+  }, true);
   window.addEventListener('resize', function(){ try{ if(typeof map!=='undefined' && map) map.invalidateSize(); }catch(e){} });
 })();
 </script>
