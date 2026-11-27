@@ -290,6 +290,15 @@
 .pv-cta{display:inline-block;background:#FF5A1F;color:#fff!important;text-decoration:none;border-radius:999px;padding:11px 20px;font:700 14px 'DM Sans',sans-serif;white-space:nowrap}
 .pv-cta:hover{background:#D9440C}
 .soul-card .pv-cta{margin-top:18px}
+.pv-temas{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.pv-tema{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:18px;padding:16px 18px;border:1px solid #DCE8F4}
+.pv-tema.destaque{grid-column:1/-1;border:2px solid var(--c);background:linear-gradient(135deg,#fff,#FFF1F6)}
+.pv-tema.destaque h3{font-size:22px}
+.pv-gl{flex:none;width:42px;height:42px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:21px;font-family:'DejaVu Sans',sans-serif}
+.pv-tema h3{margin:0;font:800 17px/1.2 'Bricolage Grotesque',sans-serif;color:#0E2240}
+.pv-sm{margin:3px 0 8px;font-size:13px;color:#56667E}
+@media(max-width:640px){.pv-temas{grid-template-columns:1fr}}
+.pv-cid{margin:0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-weight:700}
 .pv-blur{filter:blur(6px);user-select:none;pointer-events:none}
 .pv-lock{display:inline-flex;align-items:center;gap:6px;font:700 12px 'DM Sans',sans-serif;color:#56667E;background:#EEF3F8;border-radius:999px;padding:5px 10px}
 .pv-card{position:relative;border-radius:24px;padding:26px 28px;background:linear-gradient(135deg,#EAF3FC,#D4E7F8);border:1px solid #CFE0F2;margin:26px 0 8px}
@@ -1556,7 +1565,7 @@ draw();if(!reduce)requestAnimationFrame(loop);
 
 <script>
 /* ===== PRÉVIA: só a linha do Sol no Meio do Céu fica visível ===== */
-const PV={"banner": "<b>Prévia gratuita.</b> Você está vendo <b>1 das suas 40 linhas</b>: o Sol no Meio do Céu. As outras 39 linhas, as suas cidades compatíveis e a leitura da sua cidade da alma são liberadas no mapa completo.", "btn": "Liberar meu mapa completo · R$ 49,90", "link": "https://go.hotmart.com/X106966830B", "amostra": "linha de exemplo", "trava": "🔒 Linha bloqueada", "travaTit": "Esta linha está bloqueada", "travaTxt": "No mapa completo você vê qual planeta desenha esta linha, o que ela ativa em você e por quais cidades ela passa.", "lugar": "Leitura do lugar", "comp": "??? de compatibilidade", "lugarTxt": "Linhas do seu mapa passam perto deste lugar. Libere o mapa completo para ver quais são, a força de cada uma e o que elas despertam aqui.", "neutro": "Nenhuma linha do seu mapa passa perto deste lugar, pelo que a prévia consegue mostrar.", "legSol": "Sol · Meio do Céu (exemplo)", "legMais": "+ 9 planetas e 39 linhas bloqueadas", "soulKick": "Cidade da alma", "soulTit": "Sua cidade da alma", "soulTxt": "É aqui que as linhas mais generosas do seu céu se encontram. Por que essa cidade chama você, quais planetas agem nela e o que ela desperta no amor, no trabalho e no dia a dia estão explicados no mapa completo.", "soulPq": "Por que essa cidade", "soulInf": "Os planetas que agem aqui", "soulLocks": "influências bloqueadas", "soulNada": "A prévia não encontrou uma cidade da alma perto das suas linhas. O mapa completo mostra os seus lugares mais fortes em cada tema.", "compKick": "Compatibilidade", "compTit": "Suas cidades mais compatíveis", "compTxt": "As 10 cidades mais compatíveis com você, pela proximidade das suas linhas mais generosas. Nomes e porcentagens são liberados no mapa completo.", "leitKick": "Sua leitura", "leitTit": "O que cada lugar ativa em você", "fimTit": "O seu mapa completo está pronto", "fimTxt": "40 linhas planetárias, a sua cidade da alma, a compatibilidade com mais de 500 cidades em 11 temas da vida e uma leitura para cada lugar que você tocar.", "km": "km"};
+const PV={"banner": "<b>Prévia gratuita.</b> Você está vendo <b>1 das suas 40 linhas</b>: o Sol no Meio do Céu. As outras 39 linhas, as suas cidades compatíveis e a leitura da sua cidade da alma são liberadas no mapa completo.", "btn": "Liberar meu mapa completo · R$ 49,90", "link": "https://go.hotmart.com/X106966830B", "amostra": "linha de exemplo", "trava": "🔒 Linha bloqueada", "travaTit": "Esta linha está bloqueada", "travaTxt": "No mapa completo você vê qual planeta desenha esta linha, o que ela ativa em você e por quais cidades ela passa.", "lugar": "Leitura do lugar", "comp": "??? de compatibilidade", "lugarTxt": "Linhas do seu mapa passam perto deste lugar. Libere o mapa completo para ver quais são, a força de cada uma e o que elas despertam aqui.", "neutro": "Nenhuma linha do seu mapa passa perto deste lugar, pelo que a prévia consegue mostrar.", "legSol": "Sol · Meio do Céu (exemplo)", "legMais": "+ 9 planetas e 39 linhas bloqueadas", "soulKick": "Cidade da alma", "soulTit": "Sua cidade da alma", "soulTxt": "É aqui que as linhas mais generosas do seu céu se encontram. Por que essa cidade chama você, quais planetas agem nela e o que ela desperta no amor, no trabalho e no dia a dia estão explicados no mapa completo.", "soulPq": "Por que essa cidade", "soulInf": "Os planetas que agem aqui", "soulLocks": "influências bloqueadas", "soulNada": "A prévia não encontrou uma cidade da alma perto das suas linhas. O mapa completo mostra os seus lugares mais fortes em cada tema.", "compKick": "Seus lugares por tema", "compTit": "Para onde cada planeta leva você", "compTxt": "Cada planeta do seu mapa aponta cidades diferentes. Os nomes são liberados no mapa completo.", "temas": [["Venus", "Onde você pode encontrar o amor", "Linha de Vênus · amor e conexão"], ["Jupiter", "Onde dinheiro e sorte abrem portas", "Linha de Júpiter · crescimento e abundância"], ["Sun", "Onde seu trabalho ganha reconhecimento", "Linha do Sol · brilho e carreira"], ["Moon", "Onde você se sente em casa", "Linha da Lua · raízes e acolhimento"], ["Neptune", "Onde a criatividade e a intuição fluem", "Linha de Netuno · arte e espiritualidade"]], "leitKick": "Sua leitura", "leitTit": "O que cada lugar ativa em você", "fimTit": "O seu mapa completo está pronto", "fimTxt": "40 linhas planetárias, a sua cidade da alma, a compatibilidade com mais de 500 cidades em 11 temas da vida e uma leitura para cada lugar que você tocar.", "km": "km"};
 const PV_FAKE=[["Isogb", "Ucgia"], ["Cdune", "Epganbgs"], ["Avelr", "Ptctlsoa"], ["Rablo", "Dlnlnliut"], ["Ictivcdp", "Godu"], ["Eatiav", "Ppoicbcel"], ["Tubc", "Pgsitm"], ["Scrgmim", "Evgcpe"], ["Carv", "Ibaut"], ["Odansnu", "Tprb"]];
 const PV_LEIT="dnlrrui dvignp ncdnublmi vigmdesap cibvn becunlbl leoalgpi iutadmu dnenbsdu geuupo outl punmg socli taemnddm dpcilec dbrtrtomn rdtbibpsi tmgusptp ltdbndmnc ctnl sprpcdaov navtlvbn pbvtna tiee tctnodd sbmuu dplcsns dlgglir vaomgim asampslue eemvrtl eprnogl scinlc iouuuievd crlme pntlou vardorb illbcsmed tlua ttogpi clmm medsruatd vrlvpen slopa anultesl puaevdbi rmpug icvlrgno nlugrls vvirr rpdvirsm mgnoaepe netlss vtnc lcdu tvsnbeacr idacm ruiaaln msiap picg";
 const pvLivre=l=>l.P.b==='Sun'&&l.angle==='MC';
@@ -1625,7 +1634,15 @@ function renderSoul(lines){
     '<a class="pv-cta" href="'+PV.link+'">'+PV.btn+'</a></div>';
 }
 function renderCompat(lines){
-  document.getElementById('compat').innerHTML='<div class="pv-card"><p class="pv-kick">'+PV.compKick+'</p><h2 class="pv-tit">'+PV.compTit+'</h2><p class="pv-sub">'+PV.compTxt+'</p>'+pvRank(10)+'</div>';
+  const cards=PV.temas.map((t,i)=>{
+    const P=PLANETS.find(p=>p.b===t[0])||{cor:'#FF5A1F',sym:'✦'};
+    return '<div class="pv-tema'+(i===0?' destaque':'')+'" style="--c:'+P.cor+'">'+
+      '<span class="pv-gl">'+P.sym+'</span>'+
+      '<div class="pv-tx"><h3>'+t[1]+'</h3><p class="pv-sm">'+t[2]+'</p>'+
+      '<p class="pv-cid"><span class="pv-blur">'+PV_FAKE[i][0]+', '+PV_FAKE[i+3][1]+'</span><span class="pv-lock">🔒 ??%</span></p></div></div>';
+  }).join('');
+  document.getElementById('compat').innerHTML='<div class="pv-card"><p class="pv-kick">'+PV.compKick+'</p><h2 class="pv-tit">'+PV.compTit+'</h2><p class="pv-sub">'+PV.compTxt+'</p>'+
+    '<div class="pv-temas">'+cards+'</div><a class="pv-cta" style="margin-top:18px" href="'+PV.link+'">'+PV.btn+'</a></div>';
 }
 function renderReading(){
   document.getElementById('reading').innerHTML='<div class="pv-card pv-leit"><p class="pv-kick">'+PV.leitKick+'</p><h2 class="pv-tit">'+PV.leitTit+'</h2>'+
